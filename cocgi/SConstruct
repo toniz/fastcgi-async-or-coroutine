@@ -1,0 +1,57 @@
+env = Environment()
+
+env.Append(CPPDEFINES = ['_LINUX_OS_'])
+
+env.Append(CPPFLAGS=[ '-fPIC',
+                      '-DLINUX',
+                      '-pipe',
+                      '-c',
+                      '-fno-inline',
+                      '-g',
+                      '-fno-strict-aliasing',
+                      '-O2',
+                      '-export-dynamic',
+                      '-Wall',
+                      '-D_GNU_SOURCE',
+                      '-D_REENTRANT',
+                      '-m64',
+                      '-Wno-deprecated'
+                     ])
+
+
+env.Append(CPPPATH = ['.'])
+
+env.Append(LIBPATH = ['./', 
+                      '/usr/lib', 
+                      '/usr/lib64/', 
+                      '/usr/local/lib',
+                     ])
+
+env.Append(RPATH = ['/usr/lib64/', '/usr/lib', '/usr/local/lib'])
+
+SharedObject(target = 'libco/coctx_swap.o', source = 'libco/coctx_swap.S')
+
+env.Append(LIBS = ['pthread', 'dl'])
+
+coCgi = env.Program('cocgi', [ 
+                            'libco/co_epoll.cpp',
+                            'libco/co_routine.cpp',
+                            'libco/co_hook_sys_call.cpp',
+                            'libco/coctx.cpp',
+                            'libco/coctx_swap.o',
+                            'cgicc_lib/CgiUtils.cpp',
+                            'cgicc_lib/FormEntry.cpp',
+                            'cgicc_lib/FormFile.cpp',
+                            'cgicc_lib/HTTPCookie.cpp',
+                            'cgicc_lib/MStreamable.cpp',
+                            'cgicc_lib/Cgicc.cpp',
+                            'muduo_lib/Buffer.cpp',
+                            'backend.cpp',
+                            'fastcgi.cpp',
+                            'main.cpp',
+                          ])
+
+
+
+
+

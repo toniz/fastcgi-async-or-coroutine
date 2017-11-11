@@ -1,0 +1,78 @@
+env = Environment()
+
+env.Append(CPPDEFINES = ['_LINUX_OS_' ])
+
+env.Append(CPPFLAGS=['-Wall', '-O3', '-g', '-std=c++0x', 
+                     '-DCHECK_PTHREAD_RETURN_VALUE', 
+                     '-DMUDUO_STD_STRING',
+                     '-DSO_REUSEPORT',
+                     '-D_FILE_OFFSET_BITS=64' , 
+                     '-Wextra', '-Werror', '-Wno-unused-parameter', '-Woverloaded-virtual', 
+                     '-Wpointer-arith', '-Wwrite-strings', '-march=native', '-rdynamic', '-Wshadow',
+                     '-finline-limit=1000', 
+                     '-DNDEBUG', 
+                     ])
+
+
+env.Append(CPPPATH = ['.',
+                      '/usr/local/include', 
+                      ])
+
+env.Append(LIBS = [
+                   'boost_thread-mt',
+                   'boost_regex',
+                   'pthread',
+                   ])
+
+env.Append(LIBPATH = ['./', 
+                      '/usr/lib', 
+                      '/usr/lib64/', 
+                      '/usr/local/lib',
+                      ])
+
+env.Append(RPATH = ['/usr/lib/nptl', '/usr/lib64/', '/usr/lib', '/usr/local/lib'])
+
+Cgi = env.Program('mcgi', [
+                                'muduo_base/Date.cc',
+                                'muduo_base/Logging.cc',
+                                'muduo_base/LogStream.cc',
+                                'muduo_base/Thread.cc',
+                                'muduo_base/Exception.cc',
+                                'muduo_base/Timestamp.cc',
+                                'muduo_base/TimeZone.cc',
+                                'muduo_base/LogFile.cc',
+                                'muduo_base/FileUtil.cc',
+                                'muduo_base/ProcessInfo.cc',
+                                'muduo_net/Acceptor.cc',
+                                'muduo_net/Buffer.cc',
+                                'muduo_net/Channel.cc',
+                                'muduo_net/Poller.cc',
+                                'muduo_net/EventLoop.cc',
+                                'muduo_net/EventLoopThread.cc',
+                                'muduo_net/EventLoopThreadPool.cc',
+                                'muduo_net/InetAddress.cc',
+                                'muduo_net/Socket.cc',
+                                'muduo_net/SocketsOps.cc',
+                                'muduo_net/TcpConnection.cc',
+                                'muduo_net/TcpServer.cc',
+                                'muduo_net/Timer.cc',
+                                'muduo_net/TimerQueue.cc',
+                                'muduo_net/DefaultPoller.cc',
+                                'muduo_net/EPollPoller.cc',
+                                'muduo_net/PollPoller.cc',
+
+                                'cgicc_lib/FormEntry.cpp',
+                                'cgicc_lib/FormFile.cpp',
+                                'cgicc_lib/CgiUtils.cpp',
+                                'cgicc_lib/Cgicc.cpp',
+                                'cgicc_lib/HTTPCookie.cpp',
+                                'cgicc_lib/MStreamable.cpp',
+
+                                'backend.cpp',
+                                'fastcgi.cpp',
+                                'main.cpp'
+                                ])
+
+
+
+
