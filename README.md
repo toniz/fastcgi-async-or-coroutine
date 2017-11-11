@@ -5,7 +5,7 @@
 Modify the BackendProc class then You can pass the http request to  back-end service.
 
 `mucgi` and `cocgi` are the original fastcgi optimization model.  
-The two models are for different scenarios. Can choose to use according to the situation.  
+The two models are for different scenarios. 
 `mucgi` asynchronous model for the back-end fast response system.  
 `cocgi` coroutine model is suitable for a system where the back-end response speed is uneven
 
