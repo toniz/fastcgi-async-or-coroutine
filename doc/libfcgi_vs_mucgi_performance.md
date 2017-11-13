@@ -35,13 +35,13 @@
     达到平均处理数：71.3Ktps  
 > CPU资源差不多用完，所以nginx->cgi异步模型瓶颈也在CPU
 #### b. 短链同步fastcgi
-* i.使用nginx瓶颈时的weighttp并发数
+* i.使用nginx瓶颈时的weighttp并发数  
 ![展示](/doc/image/image006.png)  
 ![展示](/doc/image/image007.png)  
     CPU使用：672 (336+336)  
     达到平均处理数：21.2Ktps  
 > CPU资源有剩余,性能瓶颈不在CPU
-* ii.加大并发数
+* ii.加大并发数  
 ![展示](/doc/image/image008.png)  
 ![展示](/doc/image/image009.png)  
     CPU使用：740 (353+390)  
@@ -49,7 +49,7 @@
 > 加大并发数，性能有所提高但和预期不符合。 
 
 >nginx->cgi同步模型瓶颈是由于nginx　upstream模块和cgi之间使用的是短链接，当net.ipv4.tcp_tw_recycle = 0的时候，压测过程中发现time_wait状态的端口达到接近：65536个。由于socket是四元组，所以我们通过增加一个fastcgi监听端口来优化这个模型。  
-* iii.增加一个fastcgi监听端口
+* iii.增加一个fastcgi监听端口  
 ![展示](/doc/image/image010.png)  
 ![展示](/doc/image/image011.png)  
 ![展示](/doc/image/image012.png)  
