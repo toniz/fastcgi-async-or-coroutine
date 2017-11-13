@@ -12,20 +12,20 @@ Modify the BackendProc Class then You can pass the http request to  back-end ser
 
 ___
 ## nginx -> fastcgi(同步) --> 同步后端(测试用的是ICE)
-
-__这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬停显示") 的libfcgi库编译C++程序，
+#### 介绍
++ 这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬停显示") 的libfcgi库编译C++程序，
 然后用cgi-fcgi或者spawn-fcgi指定ip端口调起这个程序处理fastcgi请求。__  
 >网上搜到的nginx + fastcgi +c教程基本都是这个模式。
 
 
 #### 缺点：
-*   1. 监听模式是 listen -> fork 共享监听端口给所有的进程。每次只有一个进程可以接受新连接。这个模式的问题后面会讨论到。
+1. 监听模式是 listen -> fork 共享监听端口给所有的进程。每次只有一个进程可以接受新连接。这个模式的问题后面会讨论到。
 
-*   2. 同步进程个数，开多了浪费资源，开少了，nginx会报一堆connect refuse.因为如果所有fastcgi的进程都在忙。而且fastcgi的backlog(这个是存放三次握手成功但没access链接)满，那么nginx新建立的链接会直接返回失败。
+2. 同步进程个数，开多了浪费资源，开少了，nginx会报一堆connect refuse.因为如果所有fastcgi的进程都在忙。而且fastcgi的backlog(这个是存放三次握手成功但没access链接)满，那么nginx新建立的链接会直接返回失败。
     
-*   3. 这里要重点指出，在fastcgi同步模型中，nginx -> fastcgi必须使用短链接。不要在nginx里面配fastcgi_keep_conn on.原因是上面说的，nginx不是所有请求都用已经存在的长链，他会自动去创建新链接。这个时候一个进程一个链接，已经没有办法接受新的链接，所以会出现一堆请求失败。
+3. 这里要重点指出，在fastcgi同步模型中，nginx -> fastcgi必须使用短链接。不要在nginx里面配fastcgi_keep_conn on.原因是上面说的，nginx不是所有请求都用已经存在的长链，他会自动去创建新链接。这个时候一个进程一个链接，已经没有办法接受新的链接，所以会出现一堆请求失败。
     
-*   4. 不要去改fastcgi的listen backlog. 在backlog里面的已经三次握手链接，但没有accept的链接。这些链接会等待，不会立刻返回失败。模型里面设置是5,曾经试过把他改成128，也就是说有128个请求等在那里，导致超时的链接更多了。超时比拒绝链接更伤性能。
+4. 不要去改fastcgi的listen backlog. 在backlog里面的已经三次握手链接，但没有accept的链接。这些链接会等待，不会立刻返回失败。模型里面设置是5,曾经试过把他改成128，也就是说有128个请求等在那里，导致超时的链接更多了。超时比拒绝链接更伤性能。
 
 #### 总结:   
 * libfcgi不能应对后端存在大量同步模块，且业务复杂的情况(业务处理速度快慢不均)。
@@ -65,7 +65,7 @@ fastcgi要解决accept性能瓶颈目前没有很好的方案。使用 SO_REUSEP
 
  ---  
 ## nginx -> mucgi(异步) --> 同步后端(测试用的是ICE)
-
+#### 介绍
 __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。  
 引入Cgicc库多个文件用于解析http请求。   
 仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
@@ -86,6 +86,7 @@ __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。
 
    ---  
 ## nginx -> cocgi(协程) --> 同步后端(测试用的是ICE)
+#### 介绍
 __协程fastcgi(cocgi)使用了腾讯开源框架libco。  
 使用muduo的Buffer类作为tcp的receive buffer。  
 加入Cgicc库多个文件用于解析http请求。  
