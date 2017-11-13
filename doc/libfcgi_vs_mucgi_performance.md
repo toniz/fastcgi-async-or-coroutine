@@ -41,13 +41,15 @@
     CPU使用：672 (336+336)  
     达到平均处理数：21.2Ktps  
 > CPU资源有剩余,性能瓶颈不在CPU
+* ii.加大并发数
 ![展示](/doc/image/image008.png)  
 ![展示](/doc/image/image009.png)  
     CPU使用：740 (353+390)  
     达到平均处理数：27.2Ktps  
-> 加大并发数测试，性能有所提高但和预期不符合。 
+> 加大并发数，性能有所提高但和预期不符合。 
 
 >nginx->cgi同步模型瓶颈是由于nginx　upstream模块和cgi之间使用的是短链接，当net.ipv4.tcp_tw_recycle = 0的时候，压测过程中发现time_wait状态的端口达到接近：65536个。由于socket是四元组，所以我们通过增加一个fastcgi监听端口来优化这个模型。  
+* iii.增加一个fastcgi监听端口
 ![展示](/doc/image/image010.png)  
 ![展示](/doc/image/image011.png)  
 ![展示](/doc/image/image012.png)  
@@ -72,8 +74,8 @@
 ### 4.优化NGINX +CGI +PROXY模型
 __NGINX + MUCGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。所以将nginx反代到两个mcgi->两个proxy后。机器性能能完全发挥出来。__
   
-![展示](/doc/image/image015.png)  
-![展示](/doc/image/image016.png)  
+![展示](/doc/image/image017.png)  
+![展示](/doc/image/image018.png)  
     CPU使用：788(177+418+193)  
     达到平均处理数：19.6Ktps  
 > CPU资源差不多用完，所以瓶颈也在CPU.
@@ -82,7 +84,7 @@ __NGINX + MUCGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。
 * nginx->fastcgi在资源占用差不多的情况下，`mucgi`每秒处理71300次echo请求,`libfcgi`每秒处理21200次echo请求.  
 * nginx->fastcgi->ice_proxy 资源占用差不多的情况下，`mucgi`每秒处理10800次echo请求,`libfcgi`每秒处理19600次echo请求.  
 
-![展示](/doc/image/image017.png)  
+![展示](/doc/image/image019.png)  
 
 
 
