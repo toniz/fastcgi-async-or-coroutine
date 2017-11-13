@@ -67,8 +67,9 @@ fastcgi要解决accept性能瓶颈目前没有很好的方案。使用 SO_REUSEP
 ## nginx -> mucgi(异步) --> 同步后端(测试用的是ICE)
 
 __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。  
-入Cgicc库多个文件用于解析http请求。 
+引入Cgicc库多个文件用于解析http请求。   
 仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
+> 需要boost库。  使用scons安装，或者直接运行make.sh。(make.sh是导出的scons的编译日志,实在不想安装,直接运行也可以编译程序)
 > doc文档有同步和异步cgi的[性能测试对比](doc/libfcgi_vs_mucgi_performance.md)。
 
 #### 优点：
@@ -89,6 +90,7 @@ __协程fastcgi(cocgi)使用了腾讯开源框架libco。
 使用muduo的Buffer类作为tcp的receive buffer。  
 加入Cgicc库多个文件用于解析http请求。  
 仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
+> 使用scons安装，或者直接运行make.sh。
 
 #### 优点：
 *   这个可以算是第一个(同步)模型的改进版本。每个进程可以创建多个协程，也就是说每个进程通过协程能模拟出多个进程的效果。  
