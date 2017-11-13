@@ -12,7 +12,6 @@ Modify the BackendProc Class then You can pass the http request to  back-end ser
 
 ___
 ## nginx -> fastcgi(同步) --> 同步后端(测试用的是ICE)
-#### 介绍
 __这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬停显示") 的libfcgi库编译C++程序，
 然后用cgi-fcgi或者spawn-fcgi指定ip端口调起这个程序处理fastcgi请求。__  
 >网上搜到的nginx + fastcgi +c教程基本都是这个模式。
@@ -65,7 +64,6 @@ fastcgi要解决accept性能瓶颈目前没有很好的方案。使用 SO_REUSEP
 
  ---  
 ## nginx -> mucgi(异步) --> 同步后端(测试用的是ICE)
-#### 介绍
 __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。  
 引入Cgicc库多个文件用于解析http请求。   
 仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
@@ -86,7 +84,6 @@ __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。
 
    ---  
 ## nginx -> cocgi(协程) --> 同步后端(测试用的是ICE)
-#### 介绍
 __协程fastcgi(cocgi)使用了腾讯开源框架libco。  
 使用muduo的Buffer类作为tcp的receive buffer。  
 加入Cgicc库多个文件用于解析http请求。  
