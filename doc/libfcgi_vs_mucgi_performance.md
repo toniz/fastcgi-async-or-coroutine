@@ -2,8 +2,8 @@
 发现以及分析NGINX -> fastcgi -> ice调用之间存在的性能瓶颈。
 ## 压测方案
 * 找出nginx性能极限
-* 找出nginx + cgi性能极限。比较同步cgi和异步cgi的差异。
-* 找出nginx+cgi+ice性能极限。比较同步cgi和异步cgi的差异。
+* 找出nginx -> fastcgi性能极限。比较同步cgi和异步cgi的差异。
+* 找出nginx -> fastcgi -> ice性能极限。比较同步cgi和异步cgi的差异。
 
 #### 代码
 异步fastcgi的[源码](../mucgi "悬停显示")  
@@ -25,32 +25,32 @@
 ![展示](/doc/image/image002.png)  
 ![展示](/doc/image/image003.png)   
 ```
-Cpu使用：784
+CPU使用：784
 达到平均处理数：96.5Ktps
 ```
 ---
 ### 2.NGINX->CGI压力测试
-#### 长链异步非阻塞CGI
+#### 长链异步fastcgi
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi异步模型瓶颈也在CPU。
 ![展示](/doc/image/image004.png)  
-![展示](/doc/image/image005.png)   
+![展示](/doc/image/image005.png)  
 ```
-Cpu使用：770(370+400)
+CPU使用：770(370+400)
 达到平均处理数：71.3Ktps
 ```
-#### 短链同步阻塞CGI
+#### 短链同步fastcgi
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi同步模型瓶颈不在CPU。
 ![展示](/doc/image/image006.png)  
 ![展示](/doc/image/image007.png)  
 ```
-Cpu使用：672 (336+336)
+CPU使用：672 (336+336)
 达到平均处理数：21.2Ktps
 ```
 * 使用同等并发数加大同步cgi进程个数判断瓶颈是否是单个cgi的交易率瓶颈。
 ![展示](/doc/image/image008.png)  
 ![展示](/doc/image/image009.png)  
 ```
-Cpu使用：740 (353+390)
+CPU使用：740 (353+390)
 达到平均处理数：27.2Ktps
 ```
 >有所改善但和预期不符合。 
@@ -61,34 +61,34 @@ Cpu使用：740 (353+390)
 ![展示](/doc/image/image011.png)  
 ![展示](/doc/image/image012.png)  
 ```
-Cpu使用：790
-达到平均处理数：28.2Ktps
+CPU使用：790
+达到平均处理数：28.8Ktps
 ```
-__该优化，从测试结果上看，资源使用开销上去了，但tps并无明显增加。__
+>该优化，从测试结果上看，资源使用开销上去了，但tps并无明显增加。
 ---
 #### 压测NGINX ->CGI ->PROXY
-##### 长链异步非阻塞CGI
-* 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi->proxy异步模型瓶颈不在Cpu。
+* 长链异步CGI
 ![展示](/doc/image/image013.png)  
 ![展示](/doc/image/image014.png)  
 ```
-Cpu使用：550 (120+300+130)
+CPU使用：550 (120+300+130)
 达到平均处理数：12Ktps
 ```
-##### 短链同步阻塞CGI
+>使用nginx瓶颈时的weighttp并发数，发现nginx->cgi->proxy异步模型瓶颈不在CPU。
+* 短链同步CGI
 ![展示](/doc/image/image015.png)  
 ![展示](/doc/image/image016.png)  
 ```
-Cpu使用：670(360+190+120)
+CPU使用：670(360+190+120)
 达到平均处理数：10.8Ktps
 ```
 ### 优化NGINX +CGI +PROXY模型
-* NGINX +CGI + PROXY同步模型由于短链接限制会造成对后端proxy的压力不足，不能完全发挥机器性能。
-* NGINX +CGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。所以将nginx反代到两个mcgi->两个proxy后。机器性能能完全发挥出来。
+* NGINX + FCGI  + PROXY同步模型由于短链接限制会造成对后端proxy的压力不足，不能完全发挥机器性能。
+* NGINX + MUCGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。所以将nginx反代到两个mcgi->两个proxy后。机器性能能完全发挥出来。
 ![展示](/doc/image/image015.png)  
 ![展示](/doc/image/image016.png)  
 ```
-Cpu使用：788(177+418+193)
+CPU使用：788(177+418+193)
 达到平均处理数：19.6Ktps
 ```
 ## 结论
