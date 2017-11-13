@@ -25,9 +25,9 @@
 ![展示](/doc/image/image002.png)  
 ![展示](/doc/image/image003.png)   
 
-> Cpu使用：784
-> 达到平均处理数：96.5Ktps
+> Cpu使用：784  达到平均处理数：96.5Ktps
 
+---
 ### 2.NGINX->CGI压力测试
 #### 长链异步非阻塞CGI
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi异步模型瓶颈也在CPU。
