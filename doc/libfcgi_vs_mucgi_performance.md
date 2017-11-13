@@ -12,7 +12,7 @@
 #### 压测方法
 ![展示](/doc/image/image001.png)  
  
-##### 服务器状态
+#### 服务器状态
     10服务器，实体机
     8核(Intel(R) Xeon(R) CPUE5504  @ 2.00GHz)
     带宽1000Mbit
@@ -82,6 +82,7 @@
 CPU使用：670(360+190+120)
 达到平均处理数：10.8Ktps
 ```
+---
 ### 优化NGINX +CGI +PROXY模型
 * NGINX + FCGI  + PROXY同步模型由于短链接限制会造成对后端proxy的压力不足，不能完全发挥机器性能。
 * NGINX + MUCGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。所以将nginx反代到两个mcgi->两个proxy后。机器性能能完全发挥出来。
