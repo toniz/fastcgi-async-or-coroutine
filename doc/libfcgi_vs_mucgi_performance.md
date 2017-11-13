@@ -66,24 +66,23 @@
 * b. 短链同步CGI  
 ![展示](/doc/image/image015.png)  
 ![展示](/doc/image/image016.png)  
-    CPU使用：670(360+190+120)
-    达到平均处理数：10.8Ktps
+    CPU使用：670(360+190+120)  
+    达到平均处理数：10.8Ktps  
 ---
 ### 4.优化NGINX +CGI +PROXY模型
 >NGINX + FCGI  + PROXY同步模型由于短链接限制会造成对后端proxy的压力不足，不能完全发挥机器性能。
->NGINX + MUCGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。所以将nginx反代到两个mcgi->两个proxy后。机器性能能完全发挥出来。
+>NGINX + MUCGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。所以将nginx反代到两个mcgi->两个proxy后。机器性能能完全发挥出来。  
+
 ![展示](/doc/image/image015.png)  
 ![展示](/doc/image/image016.png)  
     CPU使用：788(177+418+193)  
     达到平均处理数：19.6Ktps  
 ## 结论  
-*   
-![展示](/doc/image/image017.png)  
-
 * 这台服务器上面单独压测nginx能到达到96500tps.  
 * nginx->fastcgi在资源占用差不多的情况下，`mucgi`每秒处理71300次echo请求,`libfcgi`每秒处理21200次echo请求.  
 * nginx->fastcgi->ice_proxy 资源占用差不多的情况下，`mucgi`每秒处理10800次echo请求,`libfcgi`每秒处理19600次echo请求.  
 
+![展示](/doc/image/image017.png)  
 
 
 
