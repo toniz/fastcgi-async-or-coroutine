@@ -1,8 +1,8 @@
 # async-or-coroutine-fastcgi
 
-`mucgi` is a async fastcgi using Muduo Network Library.  
-`cocgi` is a coroutine fastcgi using Tencent Libco Library.  
-Modify the [BackendProc Class](cocgi/backend.cpp) then You can pass the http request to  back-end service.  
+`mucgi` is a async fastcgi using Muduo Network Library.
+`cocgi` is a coroutine fastcgi using Tencent Libco Library.
+Modify the BackendProc Class then You can pass the http request to  back-end service.  
 
 `mucgi` and `cocgi` are the original fastcgi optimization model.  
 `mucgi` is better than` cocgi` over `libfcgi` for network jitter coping ability.  
