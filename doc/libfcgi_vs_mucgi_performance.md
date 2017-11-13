@@ -66,7 +66,7 @@ CPU使用：790
 ```
 >该优化，从测试结果上看，资源使用开销上去了，但tps并无明显增加。
 ---
-#### 压测NGINX ->CGI ->PROXY
+### NGINX->CGI->PROXY压力测试
 * 长链异步CGI
 ![展示](/doc/image/image013.png)  
 ![展示](/doc/image/image014.png)  
