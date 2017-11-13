@@ -90,7 +90,7 @@ __协程fastcgi(cocgi)使用了腾讯开源框架libco。
 使用muduo的Buffer类作为tcp的receive buffer。  
 加入Cgicc库多个文件用于解析http请求。  
 仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
-> 使用scons安装，或者直接运行make.sh。
+> 使用scons安装，或者直接运行make.sh。(make.sh是导出的scons的编译日志,实在不想安装scons,直接运行make.sh也可以编译程序)
 
 #### 优点：
 *   这个可以算是第一个(同步)模型的改进版本。每个进程可以创建多个协程，也就是说每个进程通过协程能模拟出多个进程的效果。  
