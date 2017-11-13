@@ -6,7 +6,7 @@ Modify the BackendProc Class then You can pass the http request to  back-end ser
 
 `mucgi` and `cocgi` are the original fastcgi optimization model.  
 `mucgi` is better than` cocgi` over `libfcgi` for network jitter coping ability.  
-`Cocgi` is better than` mucgi` over `libfcgi` for coping ability of back-end business complexity.  
+`cocgi` is better than` mucgi` over `libfcgi` for coping ability of back-end business complexity.  
 `mucgi` asynchronous model for the back-end fast response system.  
 `cocgi` coroutine model is suitable for a system where the back-end response speed is uneven  
 
@@ -69,7 +69,7 @@ fastcgi要解决accept性能瓶颈目前没有很好的方案。使用 SO_REUSEP
 __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。  
 引入Cgicc库多个文件用于解析http请求。   
 仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
-> 需要boost库。  使用scons安装，或者直接运行make.sh。(make.sh是导出的scons的编译日志,实在不想安装,直接运行也可以编译程序)
+> 需要boost库。  使用scons安装，或者直接运行make.sh。(make.sh是导出的scons的编译日志,实在不想安装scons,直接运行make.sh也可以编译程序)
 > doc文档有同步和异步cgi的[性能测试对比](doc/libfcgi_vs_mucgi_performance.md)。
 
 #### 优点：
