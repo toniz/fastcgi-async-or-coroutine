@@ -24,10 +24,8 @@
 * 加大weighttp并发数后，看发现瓶颈在CPU。
 ![展示](/doc/image/image002.png)  
 ![展示](/doc/image/image003.png)   
-```
-    CPU使用：784
-    达到平均处理数：96.5Ktps
-```
+    CPU使用：784  
+    达到平均处理数：96.5Ktps  
 ---
 ### 2.NGINX->CGI压力测试
 #### 长链异步fastcgi
@@ -66,7 +64,7 @@
 ```
 >该优化，从测试结果上看，资源使用开销上去了，但tps并无明显增加。
 ---
-### NGINX->CGI->PROXY压力测试
+### 3.NGINX->CGI->PROXY压力测试
 * 长链异步CGI  
 ![展示](/doc/image/image013.png)  
 ![展示](/doc/image/image014.png)  
@@ -83,7 +81,7 @@ CPU使用：670(360+190+120)
 达到平均处理数：10.8Ktps
 ```
 ---
-### 优化NGINX +CGI +PROXY模型
+### 4.优化NGINX +CGI +PROXY模型
 * NGINX + FCGI  + PROXY同步模型由于短链接限制会造成对后端proxy的压力不足，不能完全发挥机器性能。
 * NGINX + MUCGI + PROXY异步模型有可优化空间。这个的瓶颈在ice单进程交易率的限制。所以将nginx反代到两个mcgi->两个proxy后。机器性能能完全发挥出来。
 ![展示](/doc/image/image015.png)  
