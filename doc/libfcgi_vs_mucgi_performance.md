@@ -24,9 +24,10 @@
 * 加大weighttp并发数后，看发现瓶颈在CPU。
 ![展示](/doc/image/image002.png)  
 ![展示](/doc/image/image003.png)   
-
-> Cpu使用：784 ,  达到平均处理数：96.5Ktps
-
+```
+Cpu使用：784
+达到平均处理数：96.5Ktps
+```
 ---
 ### 2.NGINX->CGI压力测试
 #### 长链异步非阻塞CGI
