@@ -48,7 +48,7 @@ fastcgi要解决accept性能瓶颈目前没有很好的方案。使用 SO_REUSEP
      332                 fprintf(stderr, "Can't set SO_REUSEADDR.\n");
      333             exit(1001);
      334         }
-             // 增加下面几行
+                 // 增加下面几行
      335         {
      336             int flag = 1;
      337             setsockopt(listenSock, SOL_SOCKET, SO_REUSEPORT, (char *) &flag, sizeof(flag));

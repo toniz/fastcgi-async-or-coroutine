@@ -30,6 +30,7 @@ enum error_code_e
     ERR_SOCKET_READ,
     ERR_SOCKET_WRITE,
     ERR_SOCKET_FINISH,
+    ERR_SOCKET_EAGAIN,
 };
 
 #endif  // COCGI_TYPE_H

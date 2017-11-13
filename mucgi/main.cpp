@@ -90,8 +90,7 @@ int main(int argc, char* argv[])
     LOG_INFO << "FastCGI listens on " << addr.toIpPort() << " threads " << threads;
 
     muduo::net::EventLoop loop;
-    //TcpServer server(&loop, addr, "FastCGI", muduo::net::TcpServer::kReusePort);
-    TcpServer server(&loop, addr, "FastCGI");
+    TcpServer server(&loop, addr, "FastCGI", muduo::net::TcpServer::kReusePort);
     server.setConnectionCallback(onConnection);
     server.setThreadNum(threads);
     server.start();

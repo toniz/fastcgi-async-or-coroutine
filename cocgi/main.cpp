@@ -17,6 +17,8 @@
 
 #include "fastcgi.h"
 
+#define MAX_RECYCLE_COUNT 60
+
 using namespace std;
 
 struct task_t
@@ -55,6 +57,7 @@ static void *readwrite_routine( void *arg )
 
         int fd = co->fd;
         co->fd = -1;
+        int recycle = 0;
         FastCgiCodec fcgi;
         for(;;)
         {
@@ -63,9 +66,21 @@ static void *readwrite_routine( void *arg )
             pf.events = (POLLIN|POLLERR|POLLHUP);
             co_poll( co_get_epoll_ct(),&pf,1,1000);
 
-            if (fcgi.readData(fd) == ERR_OK)
+            int ret = fcgi.readData(fd);
+            if (ret == ERR_OK)
             {
+                recycle = 0;
                 continue;
+            }
+            else if (ret == ERR_SOCKET_EAGAIN)
+            {
+
+                // Receive Timeout 60 second.
+                if (recycle++ >= MAX_RECYCLE_COUNT)
+                {
+                    close( fd );
+                    break;
+                }
             }
             else
             {
@@ -92,7 +107,7 @@ static void *accept_routine( void * )
             printf("empty\n"); //sleep
             struct pollfd pf = { 0 };
             pf.fd = -1;
-            poll( &pf,1,1000);
+            poll( &pf,1,10);
 
             continue;
 
@@ -157,6 +172,13 @@ static int CreateTcpSocket(const unsigned short shPort /* = 0 */,const char *psz
                 int nReuseAddr = 1;
                 setsockopt(fd,SOL_SOCKET,SO_REUSEADDR,&nReuseAddr,sizeof(nReuseAddr));
             }
+
+            /*set SO_REUSEPORT*/
+            int val =1;
+            if (setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &val, sizeof(val))<0) {
+                perror("setsockopt reuse port failed! \n");         
+            }   
+
             struct sockaddr_in addr ;
             SetAddr(pszIP,shPort,addr);
             int ret = bind(fd,(struct sockaddr*)&addr,sizeof(addr));
@@ -175,8 +197,8 @@ int main(int argc,char *argv[])
 {
     if(argc<5){
         printf("Usage:\n"
-               "example_echosvr [IP] [PORT] [TASK_COUNT] [PROCESS_COUNT]\n"
-               "example_echosvr [IP] [PORT] [TASK_COUNT] [PROCESS_COUNT] -d   # daemonize mode\n");
+               "cocgi [IP] [PORT] [TASK_COUNT] [PROCESS_COUNT]\n"
+               "cocgi [IP] [PORT] [TASK_COUNT] [PROCESS_COUNT] -d   # daemonize mode\n");
         return -1;
     }
     const char *ip = argv[1];

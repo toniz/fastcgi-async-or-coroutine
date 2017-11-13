@@ -101,12 +101,13 @@ int FastCgiCodec::readData(int &fd)
     else
     {
         // accept_routine->SetNonBlock(fd) cause EAGAIN, we should continue
-        if (errno != EAGAIN)
+        if (errno == EAGAIN)
         {
-            return ERR_SOCKET_READ;
+            return ERR_SOCKET_EAGAIN;
         }
-    }  
-    return ERR_OK;
+    }
+
+    return ERR_SOCKET_READ;
 }
 
 bool FastCgiCodec::parseFcgiPackage()
