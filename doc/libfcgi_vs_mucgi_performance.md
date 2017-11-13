@@ -34,9 +34,10 @@ Cpu使用：784
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi异步模型瓶颈也在CPU。
 ![展示](/doc/image/image004.png)  
 ![展示](/doc/image/image005.png)   
+```
     Cpu使用：770(370+400)
     达到平均处理数：71.3Ktps
-
+```
 #### 短链同步阻塞CGI
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi同步模型瓶颈不在CPU。
 ![展示](/doc/image/image006.png)  
