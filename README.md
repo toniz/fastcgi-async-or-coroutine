@@ -2,7 +2,7 @@
 
 `mucgi` is a async fastcgi using Muduo Network Library.  
 `cocgi` is a coroutine fastcgi using Tencent Libco Library.  
-Modify the BackendProc class then You can pass the http request to  back-end service.  
+Modify the [BackendProc Class](cocgi/backend.cpp) then You can pass the http request to  back-end service.  
 
 `mucgi` and `cocgi` are the original fastcgi optimization model.  
 `mucgi` is better than` cocgi` over `libfcgi` for network jitter coping ability.  
@@ -13,8 +13,8 @@ Modify the BackendProc class then You can pass the http request to  back-end ser
 ___
 ## nginx -> fastcgi(同步) --> 同步后端(测试用的是ICE)
 
-__这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬停显示") 上面的fcgi库编译C++程序，
-用cgi-fcgi或者spawn-fcgi指定ip端口调起这个编译好的C++程序。__  
+__这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬停显示") 的libfcgi库编译C++程序，
+然后用cgi-fcgi或者spawn-fcgi指定ip端口调起这个程序处理fastcgi请求。__  
 >网上搜到的nginx + fastcgi +c教程基本都是这个模式。
 
 
@@ -26,6 +26,7 @@ __这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬�
 *   3. 这里要重点指出，在fastcgi同步模型中，nginx -> fastcgi必须使用短链接。不要在nginx里面配fastcgi_keep_conn on.原因是上面说的，nginx不是所有请求都用已经存在的长链，他会自动去创建新链接。这个时候一个进程一个链接，已经没有办法接受新的链接，所以会出现一堆请求失败。
     
 *   4. 不要去改fastcgi的listen backlog. 在backlog里面的已经三次握手链接，但没有accept的链接。这些链接会等待，不会立刻返回失败。模型里面设置是5,曾经试过把他改成128，也就是说有128个请求等在那里，导致超时的链接更多了。超时比拒绝链接更伤性能。
+
     __总结__:   
     不能应对后端存在大量同步模块，且业务复杂的情况(业务处理速度快慢不均)。  
     不能应对网络抖动的情况(请求数突然暴涨)。  
