@@ -25,8 +25,8 @@
 ![展示](/doc/image/image002.png)  
 ![展示](/doc/image/image003.png)   
 ```
-CPU使用：784
-达到平均处理数：96.5Ktps
+    CPU使用：784
+    达到平均处理数：96.5Ktps
 ```
 ---
 ### 2.NGINX->CGI压力测试
@@ -35,23 +35,23 @@ CPU使用：784
 ![展示](/doc/image/image004.png)  
 ![展示](/doc/image/image005.png)  
 ```
-CPU使用：770(370+400)
-达到平均处理数：71.3Ktps
+    CPU使用：770(370+400)
+    达到平均处理数：71.3Ktps
 ```
 #### 短链同步fastcgi
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi同步模型瓶颈不在CPU。
 ![展示](/doc/image/image006.png)  
 ![展示](/doc/image/image007.png)  
 ```
-CPU使用：672 (336+336)
-达到平均处理数：21.2Ktps
+    CPU使用：672 (336+336)
+    达到平均处理数：21.2Ktps
 ```
 * 使用同等并发数加大同步cgi进程个数判断瓶颈是否是单个cgi的交易率瓶颈。
 ![展示](/doc/image/image008.png)  
 ![展示](/doc/image/image009.png)  
 ```
-CPU使用：740 (353+390)
-达到平均处理数：27.2Ktps
+    CPU使用：740 (353+390)
+    达到平均处理数：27.2Ktps
 ```
 >有所改善但和预期不符合。 
 
@@ -61,21 +61,21 @@ CPU使用：740 (353+390)
 ![展示](/doc/image/image011.png)  
 ![展示](/doc/image/image012.png)  
 ```
-CPU使用：790
-达到平均处理数：28.8Ktps
+    CPU使用：790
+    达到平均处理数：28.8Ktps
 ```
 >该优化，从测试结果上看，资源使用开销上去了，但tps并无明显增加。
 ---
 ### NGINX->CGI->PROXY压力测试
-* 长链异步CGI
+* 长链异步CGI  
 ![展示](/doc/image/image013.png)  
 ![展示](/doc/image/image014.png)  
 ```
-CPU使用：550 (120+300+130)
-达到平均处理数：12Ktps
+    CPU使用：550 (120+300+130)
+    达到平均处理数：12Ktps
 ```
 >使用nginx瓶颈时的weighttp并发数，发现nginx->cgi->proxy异步模型瓶颈不在CPU。
-* 短链同步CGI
+* 短链同步CGI  
 ![展示](/doc/image/image015.png)  
 ![展示](/doc/image/image016.png)  
 ```
@@ -88,8 +88,8 @@ CPU使用：670(360+190+120)
 ![展示](/doc/image/image015.png)  
 ![展示](/doc/image/image016.png)  
 ```
-CPU使用：788(177+418+193)
-达到平均处理数：19.6Ktps
+    CPU使用：788(177+418+193)
+    达到平均处理数：19.6Ktps
 ```
 ## 结论
 ![展示](/doc/image/image017.png)  
