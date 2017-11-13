@@ -1,4 +1,4 @@
-# coroutine fastcgi using libco
+# Asynchronous Fastcgi
 
 `mucgi` is a async fastcgi using Muduo Network Library.  
 Use Some Cgicc Files to parse http request.  
@@ -15,7 +15,7 @@ yum install scons -y
 scons
 ```
 
-or run: 
+__Or run:__ 
 ```sh
 sh make.sh
 ```
@@ -25,7 +25,8 @@ sh make.sh
 nohup ./mcgi [PORT] [THREAD_NUM] &
 ```
 
-Linux Version > 3.9, support for the SO_REUSEPORT socket option. We can add process on runtime.
+__Linux Version > 3.9, support for the SO_REUSEPORT socket option. We can add process on runtime.__
+
 ```sh
 nohup ./mcgi 6888 10 &
 nohup ./mcgi 6888 10 & 
