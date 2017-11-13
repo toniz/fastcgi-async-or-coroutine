@@ -6,8 +6,8 @@
 * 找出nginx+cgi+ice性能极限。比较同步cgi和异步cgi的差异。
 
 ### 代码
-同步fastcgi的[源码](../mucgi "悬停显示")  
-异步fastcgi的[源码](https://fastcgi-archives.github.io/ "悬停显示")  
+异步fastcgi的[源码](../mucgi "悬停显示")  
+同步fastcgi的[源码](https://fastcgi-archives.github.io/ "悬停显示")  
 
 ### 压测方法
 ![展示](/doc/image/image001.png)  
@@ -24,6 +24,7 @@
 * 加大weighttp并发数后，看发现瓶颈在CPU。
 ![展示](/doc/image/image002.png)  
 ![展示](/doc/image/image003.png)   
+
     Cpu使用：784
     达到平均处理数：96.5Ktps
 
