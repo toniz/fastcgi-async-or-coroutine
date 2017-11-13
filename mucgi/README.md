@@ -6,7 +6,10 @@ Modify the [BackendProc Class](backend.cpp) then You can pass the http request t
 
 ---
 
-## INSTALL
+## Requirements
+    Need Boost C++ Library  
+
+## Install
 ```sh
 yum install scons -y
 scons

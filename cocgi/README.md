@@ -1,8 +1,8 @@
 # coroutine fastcgi using libco
 
 `cocgi` is a coroutine fastcgi using Tencent Libco Library.  
-Use Muduo Buffer.cpp for tcp receive buffer.
-Use Some Cgicc Files to parse http request.
+Use Muduo Buffer.cpp for tcp receive buffer.  
+Use Some Cgicc Files to parse http request.  
 Modify the BackendProc class then You can pass the http request to  back-end service.
 
 ---
