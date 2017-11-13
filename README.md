@@ -70,7 +70,6 @@ __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。
 引入Cgicc库多个文件用于解析http请求。   
 仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
 > 需要boost库。  使用scons安装，或者直接运行make.sh。(make.sh是导出的scons的编译日志,实在不想安装scons,直接运行make.sh也可以编译程序)
-> doc文档有同步和异步cgi的[性能测试对比](doc/libfcgi_vs_mucgi_performance.md)。
 
 #### 优点：
 *   1. nginx可以配置异步长链接.提供了性能。
@@ -83,6 +82,7 @@ __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。
     muduo网络库是支持 在构造函数传入muduo::net::TcpServer::kReusePort即可
     如下：TcpServer server(&loop, addr, "FastCGI", muduo::net::TcpServer::kReusePort)
     可以在进程很忙的时候，不需重启就能多加几个fastcgi进程进来处理请求。
+> doc文档有同步和异步cgi的[性能测试对比](doc/libfcgi_vs_mucgi_performance.md)。
 
    ---  
 ## nginx -> cocgi(协程) --> 同步后端(测试用的是ICE)
