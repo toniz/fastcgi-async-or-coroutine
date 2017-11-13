@@ -5,11 +5,11 @@
 * 找出nginx + cgi性能极限。比较同步cgi和异步cgi的差异。
 * 找出nginx+cgi+ice性能极限。比较同步cgi和异步cgi的差异。
 
-### 代码
+#### 代码
 异步fastcgi的[源码](../mucgi "悬停显示")  
 同步fastcgi的[源码](https://fastcgi-archives.github.io/ "悬停显示")  
 
-### 压测方法
+#### 压测方法
 ![展示](/doc/image/image001.png)  
  
 ##### 服务器状态
@@ -20,23 +20,23 @@
     内存32GB
 
 ## 压测流程
-#### 单压nginx
+### 1.nginx压测
 * 加大weighttp并发数后，看发现瓶颈在CPU。
 ![展示](/doc/image/image002.png)  
 ![展示](/doc/image/image003.png)   
 
-    Cpu使用：784
-    达到平均处理数：96.5Ktps
+> Cpu使用：784
+> 达到平均处理数：96.5Ktps
 
-#### 压测NGINX ->CGI 
-##### 长链异步非阻塞CGI
+### 2.NGINX->CGI压力测试
+#### 长链异步非阻塞CGI
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi异步模型瓶颈也在CPU。
 ![展示](/doc/image/image004.png)  
 ![展示](/doc/image/image005.png)   
     Cpu使用：770(370+400)
     达到平均处理数：71.3Ktps
 
-##### 短链同步阻塞CGI
+#### 短链同步阻塞CGI
 * 使用nginx瓶颈时的weighttp并发数，发现nginx->cgi同步模型瓶颈不在CPU。
 ![展示](/doc/image/image006.png)  
 ![展示](/doc/image/image007.png)  
@@ -49,7 +49,9 @@
     Cpu使用：740 (353+390)
     达到平均处理数：27.2Ktps
 >有所改善但和预期不符合。 
-nginx->cgi同步模型瓶颈是由于nginx　upstream模块和cgi之间使用的是短链接，当net.ipv4.tcp_tw_recycle = 0的时候，压测过程中发现time_wait状态的端口达到接近：65536个。由于socket是四元组，所以我们通过增加一个fastcgi监听端口来优化这个模型。
+
+>nginx->cgi同步模型瓶颈是由于nginx　upstream模块和cgi之间使用的是短链接，当net.ipv4.tcp_tw_recycle = 0的时候，压测过程中发现time_wait状态的端口达到接近：65536个。由于socket是四元组，所以我们通过增加一个fastcgi监听端口来优化这个模型。  
+* 增加一个fastcgi监听端口来压测。
 ![展示](/doc/image/image010.png)  
 ![展示](/doc/image/image011.png)  
 ![展示](/doc/image/image012.png)  
