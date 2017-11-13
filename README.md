@@ -30,7 +30,7 @@ __这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬�
 >Linux内核版本2.6.18以前，listen -> fork 这种做法会有惊群效应。在 2.6.18 以后，这个问题得到修复，仅有一个进程被唤醒并 accept 成功。
 多IO+多路IO复用的模型也存在惊群在问题(如epoll)。nginx就花了大力气处理这个问题。nginx配置accept_mutex on的时候，用加锁来保证每次只有一个进程的listen_fd会进入epoll。
 但在极高的tps下，如用weighttp短链压测nginx echo。每次都只有一个链接能够被接收的模式，这个接受新连接的速度将是个瓶颈，本机测试一秒最多2.2-2.5w次，cpu有一两个核跑满，其它大量idle.
-nginx解决这个速度瓶颈问题提供了两个配置项，一个是关掉accept_mutex 虽然会有惊群，但对比开着的性能要提高太多。至少是能跑满cpu了。一个是打开multi_accept on,表示一次可以处理多个accept，能很好的提高accept的速度，但会引起worker负载不均衡。
+nginx解决这个[速度瓶颈问题](/doc/nginx_shortlink_performance.md)提供了两个配置项，一个是关掉accept_mutex 虽然会有惊群，但对比开着的性能要提高太多。至少是能跑满cpu了。一个是打开multi_accept on,表示一次可以处理多个accept，能很好的提高accept的速度，但会引起worker负载不均衡。
 fastcgi要解决accept性能瓶颈目前没有很好的方案。使用 SO_REUSEPORT(since Linux 3.9)，可以稍微提升下性能。
 
 
