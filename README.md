@@ -67,8 +67,8 @@ fastcgi要解决accept性能瓶颈目前没有很好的方案。使用 SO_REUSEP
 ## nginx -> mucgi(异步) --> 同步后端(测试用的是ICE)
 
 __这个fastcgi异步处理框架是在muduo网络库的基础上完善了fastcgi的协议解析并引入cgicc库里面http协议解析的几个代码。实现和同步fastcgi相同的功能。
-仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.
-doc文档有同步和异步cgi的[性能测试对比](doc/libfcgi_vs_mucgi_performance.md)。__
+仅需要修改backend.cpp和backend.h就可以把请求传到后端服务使用.__
+> doc文档有同步和异步cgi的[性能测试对比](doc/libfcgi_vs_mucgi_performance.md)。
 
 #### 优点：
 *   1. nginx可以配置异步长链接.提供了性能。
