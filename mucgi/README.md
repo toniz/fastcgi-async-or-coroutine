@@ -37,7 +37,7 @@ nohup ./mcgi 16888 10 &
 * [nginx configure](/doc/nginx_configure.conf)  
 > mucgi using longlike to improve performance.
 
-* Test
+* Test  
 ![测试](/doc/image/last03.png)   
 > nohup.out not flush immediately，
 

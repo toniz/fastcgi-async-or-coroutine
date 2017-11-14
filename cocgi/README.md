@@ -36,7 +36,7 @@ __Linux Version > 3.9, support for the SO_REUSEPORT socket option. We can add pr
 * [nginx configure](/doc/nginx_configure.conf)  
 > cocgi is synchronize, can't use longlink.
 
-* Test 
+* Test   
 ![测试](/doc/image/last02.png)
 
 
