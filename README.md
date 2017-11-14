@@ -7,8 +7,8 @@ Modify the BackendProc Class then You can pass the http request to  back-end ser
 `mucgi` and `cocgi` are the original fastcgi optimization model.  
 `mucgi` is better than` cocgi` over `libfcgi` for network jitter coping ability.  
 `cocgi` is better than` mucgi` over `libfcgi` for coping ability of back-end business complexity.  
-`mucgi` asynchronous model for the back-end fast response system.  
-`cocgi` coroutine model is suitable for a system where the back-end response speed is uneven  
+`mucgi` `cocgi` can be used together in one system:  
+![图片](/doc/image/last01.jpg)
 
 ___
 ## nginx -> fastcgi(同步) --> 同步后端(测试用的是ICE)
@@ -71,7 +71,8 @@ __异步fastcgi(mucgi)使用了muduo网络库作为通讯框架。
 
 #### 优点：
 1. nginx可以配置异步长链接.提供了性能。
-2. 能很好的应对请求数瞬间爆炸的情况。比如10秒没有请求，突然下一秒来了1万个。一般发生在公网网络抖动的时候。如果是同步模型，这里就会出现几千条connect refuse。
+2. 能很好的应对请求数瞬间爆炸的情况。比如10秒没有请求，突然下一秒来了1万个。一般发生在公网网络抖动的时候。如果是同步模型，这里就会出现几千条connect refuse。 
+>  muduo的日志用起来不是很顺手，业务环境我是替换成了log4cxx。为了不增加本模块的复杂度，就没把那份代码放上来。
 
 #### 缺点：
 * 由于fastcgi是把请求转到后端，后端处理是用同步的，这个时候fastcgi进程其实是等在这里了。也就是说，一个CGI进程或线程能处理的请求数是要看后端响应速度的。所以当后端出现延迟很高的调用时，会造成mucgi堵车。就像是多条道的高速公路，如果路上有的车开得很慢，就容易造成堵车。
@@ -107,5 +108,6 @@ __异步模型和协程模型都是原fastcgi的优化模型。
 两者针对的场景略有不同。可以根据业务情况选择使用。  
 对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
 对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。  
-异步模型适合网络抖动严重,后端响应速度快的系统。  
-协程模型适合业务复杂度高,后端响应速度快慢不均的系统。__
+在一个系统中两者可以结合起来使用：  
+用`mucgi`接入如秒杀活动，抽奖等请求数波动大且响应速度快的后端。  
+用`cocgi`接入存在复杂业务逻辑，请求响应速度快慢不均的后端。  __
