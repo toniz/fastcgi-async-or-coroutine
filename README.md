@@ -5,9 +5,9 @@
 Modify the BackendProc Class then You can pass the http request to  back-end service.  
 
 `mucgi` and `cocgi` are the original fastcgi optimization model.  
-`mucgi` is better than` cocgi` over `libfcgi` for network jitter coping ability.  
-`cocgi` is better than` mucgi` over `libfcgi` for coping ability of back-end business complexity.  
-`mucgi` `cocgi` can be used together in one system:  
+__`mucgi` is better than` cocgi` over `libfcgi` for network jitter coping ability.  
+`cocgi` is better than` mucgi` over `libfcgi` for coping ability of back-end business complexity.__  
+* `mucgi` `cocgi` can be used together in one system:  
 ![图片](/doc/image/last01.jpg)
 
 ___
@@ -104,10 +104,10 @@ __协程fastcgi(cocgi)使用了腾讯开源框架libco。
 
 
 ## 总结：
-__异步模型和协程模型都是原fastcgi的优化模型。  
+异步模型和协程模型都是原fastcgi的优化模型。  
 两者针对的场景略有不同。可以根据业务情况选择使用。  
-对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
-对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。  
+__对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
+对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。__    
 在一个系统中两者可以结合起来使用：  
 用`mucgi`接入如秒杀活动，抽奖等请求数波动大且响应速度快的后端。  
-用`cocgi`接入存在复杂业务逻辑，请求响应速度快慢不均的后端。  __
+用`cocgi`接入存在复杂业务逻辑，请求响应速度快慢不均的后端。  
