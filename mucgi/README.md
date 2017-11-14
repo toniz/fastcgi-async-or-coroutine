@@ -35,7 +35,7 @@ nohup ./mcgi 16888 10 &
 ...
 ```
 * [nginx configure](/doc/nginx_configure.conf)  
-> mucgi using longlike to improve performance.
+> mucgi using long-link to improve performance.
 
 * Test  
 ![测试](/doc/image/last03.png)   
