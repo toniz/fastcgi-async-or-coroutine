@@ -1,0 +1,15 @@
+# 开启Travis CI任务, 提交后自动生成测试报告。
+sudo: false
+language: cpp
+os:
+  - linux
+
+compiler:
+  - gcc
+script:
+  - sudo yum install boost -y
+  - scons
+
+after_success: 
+- bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+
