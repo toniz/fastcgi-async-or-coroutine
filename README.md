@@ -1,4 +1,5 @@
 # async-or-coroutine-fastcgi
+[![coverity](https://scan.coverity.com/projects/14345/badge.svg)](https://scan.coverity.com/projects/toniz-async-or-coroutine-fastcgi)
 
 `mucgi` is a async fastcgi using Muduo Network Library.
 `cocgi` is a coroutine fastcgi using Tencent Libco Library.
