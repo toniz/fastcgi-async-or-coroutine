@@ -25,9 +25,9 @@ addons:
   coverity_scan:
     project:
       name: "toniz/async-or-coroutine-fastcgi"
-      description: "<Your project description here>"
+      description: "mcgi is a async fastcgi using Muduo Network Library. cocgi is a coroutine fastcgi using Tencent Libco Library."
     notification_email: toniz7960@gmail.com
     build_command_prepend: "scons -c"
-    build_command: "scons"
+    build_command: scons
     branch_pattern: coverity_scan
 
