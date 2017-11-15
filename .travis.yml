@@ -1,5 +1,4 @@
 # 开启Travis CI任务, 提交后自动生成测试报告。
-sudo: false
 language: cpp
 os:
   - linux
@@ -21,8 +20,7 @@ before_install:
     - aptitude search boost -y
     - sudo apt-get install scons -y
 
-script:
-  - scons 
+script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then scons ; fi
 
 addons:
   coverity_scan:
