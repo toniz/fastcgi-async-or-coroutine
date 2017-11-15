@@ -1,3 +1,3 @@
 SConscript(['mucgi/SConstruct'])
-SConscript(['cocgi/SConstruct'])
+#SConscript(['cocgi/SConstruct'])
 
