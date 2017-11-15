@@ -28,5 +28,5 @@ addons:
       name: "toniz/async-or-coroutine-fastcgi"
       description: "Build submitted via Travis CI"
     notification_email: toniz7960@gmail.com
-    build_command:   "scons"
+    build_command:   "make"
     branch_pattern: coverity_scan
