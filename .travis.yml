@@ -14,13 +14,12 @@ addons:
       name: "toniz/async-or-coroutine-fastcgi"
       description: "<Your project description here>"
     notification_email: toniz7960@gmail.com
-    build_command_prepend: "<Your build preprocessing command here>"
-    build_command:   "<Your build command here>"
-    build_command: "sudo apt-get update -y"
-    build_command: "sudo apt-get install libboost-all-dev -y"
-    build_command: "sudo apt-get install aptitude -y"
-    build_command: "aptitude search boost -y"
-    build_command: "sudo apt-get install scons -y"
+    build_command_prepend: "sudo apt-get update -y"
+    build_command_prepend: "sudo apt-get install libboost-all-dev -y"
+    build_command_prepend: "sudo apt-get install aptitude -y"
+    build_command_prepend: "aptitude search boost -y"
+    build_command_prepend: "sudo apt-get install scons -y"
+    build_command_prepend: "scons -c"
     build_command: "scons"
     branch_pattern: coverity_scan
 
