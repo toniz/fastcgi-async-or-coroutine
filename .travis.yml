@@ -19,8 +19,8 @@ before_install:
     - sudo apt-get install aptitude -y
     - aptitude search boost -y
     - sudo apt-get install scons -y
-
-script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then scons ; fi
+    - scons -c
+    - alias make=scons
 
 addons:
   coverity_scan:
@@ -28,6 +28,5 @@ addons:
       name: "toniz/async-or-coroutine-fastcgi"
       description: "Build submitted via Travis CI"
     notification_email: toniz7960@gmail.com
-    build_command_prepend: "scons -c"
     build_command:   "scons"
     branch_pattern: coverity_scan
