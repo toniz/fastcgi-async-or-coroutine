@@ -7,9 +7,11 @@ os:
 compiler:
   - gcc
 script:
+  - sudo apt-get update -y
   - sudo apt-get install libboost-all-dev -y
   - sudo apt-get install aptitude -y
   - aptitude search boost -y
+  - sudo apt-get install scons -y
   - scons
 
 after_success: 
