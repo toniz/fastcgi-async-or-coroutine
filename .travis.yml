@@ -15,9 +15,6 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
     - secure: "C7smbw+mWbRYws6rKUoeGZRbK4feg+Xnfp0Owk8tLepMIGCUw/SLxPhe0rXNl1c09ABQaX9pCtXxFtz/nnfCuO55Eqdi71Il/+X6PYwMgaBOnMVWdywRgThUp7Hu2i/rK0b4ZYEQURj0HdOfIOjWY4L7v/CrnOPprwLjvrmg8CZOku2ytVmxULIrWYumbfV2KgJZs/hQaPlhcUR/eSYNVl0tz/aPEXGfUfFekuxmLWDP/z3vrIDW/hPmmWEelJVx3RTKDB+BXuNfaVfgzvoU4IV/mIG9l3FGybnQVviGZv03rJJUpaWTIsf+/CqUd6qDaesnCoiRcbkO8PwOT30GzMiPu7usu1veWhhVp9yb32nzfqITeQvzPqla74Hzjuzmyhqbi+Y1kD9rJkfS/300Z1qgb5BFjU0eblW6REuWNw4AvqgcbbqWAS5IBLVLTw+lBZNjWMl5pPlRBh3cNWKi7y1Ak2PeLgqTy03v9nlieo18PCbBFFRk2qpEiJ2bud7ptl2L/gBURvTRA6jNq5wAkCdr8xNnmeaKtbJyGuB5F9cRaz7LBRbZ36pgdO1it1Rq4kg57ooJB9cNn/ODKzZ51KPIPxkU4ODI8bvhGGZwmMKzv1kFHiAAelKaNb5TqoD4fmLp/4ukRAJo3m9QTKsWyw4NYPuGgFkT5tRucNhBSAs="
-    - COVERITY_SCAN_BRANCH_PATTERN="master"
-    - COVERITY_SCAN_BUILD_COMMAND_PREPEND="scons -c"
-    - COVERITY_SCAN_BUILD_COMMAND="scons"
 
 before_install:
     - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
@@ -27,11 +24,14 @@ before_install:
     - aptitude search boost -y
     - sudo apt-get install scons -y
 
+script: script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then make ; fi
+
 addons:
   coverity_scan:
     project:
       name: "toniz/async-or-coroutine-fastcgi"
       description: "Build submitted via Travis CI"
     notification_email: toniz7960@gmail.com
+    build_command_prepend: "scons -c"
     build_command: "scons"
     branch_pattern: master
