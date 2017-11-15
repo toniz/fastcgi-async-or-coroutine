@@ -12,9 +12,6 @@ script:
   - sudo apt-get install aptitude -y
   - aptitude search boost -y
   - sudo apt-get install scons -y
-  - ls
-  - cd
-  - ls
   - scons
 
 after_success: 
