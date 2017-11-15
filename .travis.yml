@@ -21,6 +21,8 @@ before_install:
     - aptitude search boost -y
     - sudo apt-get install scons -y
 
+script:
+  - scons 
 
 addons:
   coverity_scan:
