@@ -24,7 +24,7 @@ before_install:
     - aptitude search boost -y
     - sudo apt-get install scons -y
 
-script: script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then make ; fi
+script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then make ; fi
 
 addons:
   coverity_scan:
