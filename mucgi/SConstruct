@@ -19,7 +19,7 @@ env.Append(CPPPATH = ['.',
                       ])
 
 env.Append(LIBS = [
-                   'boost_thread-mt',
+                   'boost_thread',
                    'boost_regex',
                    'pthread',
                    ])
