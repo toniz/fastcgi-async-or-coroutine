@@ -19,6 +19,7 @@ ___
 异步模型和协程模型都是原fastcgi的优化模型。   
 * `cocgi`是使用腾讯开源库libco实现的协程模式的fastcgi.  
 * `mucgi`是使用muduo开源库实现的异步模式的fastcgi.  
+
 两者针对的场景略有不同。可以根据业务情况选择使用:   
 * 对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
 * 对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。     
