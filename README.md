@@ -16,12 +16,12 @@ cocgi is better than mucgi, mucgi is better than libfcgi for coping ability of b
 ___
 
 # 介绍
-`cocgi`是使用腾讯开源库libco实现的协程模式的fastcgi.  
-`mucgi`是使用muduo开源库实现的异步模式的fastcgi.  
-异步模型和协程模型都是原fastcgi的优化模型。  
-两者针对的场景略有不同。可以根据业务情况选择使用。  
-对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
-对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。     
+异步模型和协程模型都是原fastcgi的优化模型。   
+* `cocgi`是使用腾讯开源库libco实现的协程模式的fastcgi.  
+* `mucgi`是使用muduo开源库实现的异步模式的fastcgi.  
+两者针对的场景略有不同。可以根据业务情况选择使用:   
+* 对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
+* 对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。     
 >在一个系统中两者可以结合起来使用：  
 >用`mucgi`接入如秒杀活动，抽奖等请求数波动大且响应速度快的后端。  
 >用`cocgi`接入存在复杂业务逻辑，请求响应速度快慢不均的后端。  
