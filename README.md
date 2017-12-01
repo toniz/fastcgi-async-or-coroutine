@@ -8,12 +8,27 @@
 Modify the BackendProc Class then You can pass the http request to  back-end service.  
 
 `mucgi` and `cocgi` are the original fastcgi optimization model.  
-__`mucgi` is better than` cocgi` over `libfcgi` for network jitter coping ability.  
-`cocgi` is better than` mucgi` over `libfcgi` for coping ability of back-end business complexity.__  
+__mucgi is better than cocgi， cocgi is better than libfcgi for network jitter coping ability.  
+cocgi is better than mucgi, mucgi is better than libfcgi for coping ability of back-end business complexity.__  
 * `mucgi` `cocgi` can be used together in one system:  
 ![图片](/doc/image/last01.jpg)
 
 ___
+
+# 介绍
+`cocgi`是使用腾讯开源库libco实现的协程模式的fastcgi.  
+`mucgi`是使用muduo开源库实现的异步模式的fastcgi.  
+异步模型和协程模型都是原fastcgi的优化模型。  
+两者针对的场景略有不同。可以根据业务情况选择使用。  
+__对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
+对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。__    
+在一个系统中两者可以结合起来使用：  
+用`mucgi`接入如秒杀活动，抽奖等请求数波动大且响应速度快的后端。  
+用`cocgi`接入存在复杂业务逻辑，请求响应速度快慢不均的后端。  
+
+---
+
+# 三种模式优缺点：
 ## nginx -> fastcgi(同步) --> 同步后端(测试用的是ICE)
 __这个框架的fastcgi是用[官网](https://fastcgi-archives.github.io/ "悬停显示") 的libfcgi库编译C++程序，
 然后用cgi-fcgi或者spawn-fcgi指定ip端口调起这个程序处理fastcgi请求。__  
@@ -106,11 +121,4 @@ __协程fastcgi(cocgi)使用了腾讯开源框架libco。
     nginx->cocgi可以使用长链接，如果要配好超时和自动回收的机制。还要和请求量和协程做个均衡。
 
 
-## 总结：
-异步模型和协程模型都是原fastcgi的优化模型。  
-两者针对的场景略有不同。可以根据业务情况选择使用。  
-__对于网络抖动的应付能力，`mucgi`优于`cocgi`优于`libfcgi`。  
-对于后端业务复杂度的应付能力,`cocgi`优于`mucgi`优于`libfcgi`。__    
-在一个系统中两者可以结合起来使用：  
-用`mucgi`接入如秒杀活动，抽奖等请求数波动大且响应速度快的后端。  
-用`cocgi`接入存在复杂业务逻辑，请求响应速度快慢不均的后端。  
+
