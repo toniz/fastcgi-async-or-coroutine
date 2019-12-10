@@ -473,6 +473,11 @@ int FastCgiCodec::doRequest(int &fd)
 
         if (n < 0)
         {
+            // accept_routine->SetNonBlock(fd) cause EAGAIN, we should continue
+            if (errno == EAGAIN)
+            {
+                return ERR_SOCKET_EAGAIN;
+            }
             return ERR_SOCKET_WRITE;
         }
     }
